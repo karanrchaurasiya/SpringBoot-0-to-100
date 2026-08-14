@@ -1,5 +1,6 @@
 package org.example.hospitalmanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,5 +36,6 @@ public class Insurance {
     private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "insurance")
+    @JsonIgnore
     private Patient patient; // inverse side
 }

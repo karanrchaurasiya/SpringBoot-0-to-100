@@ -27,21 +27,20 @@ public class PatientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<PatientDto>> getPatientById(@PathVariable Long id) {
+    public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id) {
         return
                 ResponseEntity.ok(patientService.getPatientById(id));
     }
 
     @PostMapping
     public ResponseEntity<PatientDto> createNewPatient(@RequestBody @Valid PatientDto newPatient) {
-        return new ResponseEntity<>(patientService.createNewPatient(newPatient), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(patientService.createNewPatient(newPatient));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePatientById(@PathVariable Long id) {
-        boolean isDeleted = patientService.deletePatientById(id);
-        if (isDeleted) return ResponseEntity.ok("Patient deleted successfully");
-
+    public ResponseEntity<Void> deletePatientById(@PathVariable Long id) {
+        patientService.deletePatientById(id);
         return ResponseEntity.notFound().build();
     }
 
@@ -52,7 +51,7 @@ public class PatientController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PatientDto> updatePartialPatientById(@PathVariable Long id, @RequestBody Map<String, Object> newPatient) {
+    public ResponseEntity<PatientDto> updatePartialPatientById(@PathVariable Long id, @RequestBody @Valid Map<String, Object> newPatient) {
         return ResponseEntity.ok(
                 patientService.updatePartialPatientById(id, newPatient));
     }

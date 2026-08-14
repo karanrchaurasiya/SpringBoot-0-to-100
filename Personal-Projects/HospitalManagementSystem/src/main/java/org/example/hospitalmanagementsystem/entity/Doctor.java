@@ -1,5 +1,6 @@
 package org.example.hospitalmanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class Doctor {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
     private Set<Appointment> appointments = new HashSet<>();
 
 }

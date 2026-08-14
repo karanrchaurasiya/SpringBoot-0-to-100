@@ -28,11 +28,11 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AppointmentStatusType status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Patient patient;  // owning side
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Doctor doctor; // owning side
 }

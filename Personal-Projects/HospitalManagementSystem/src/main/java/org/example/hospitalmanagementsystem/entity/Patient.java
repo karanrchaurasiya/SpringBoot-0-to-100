@@ -1,5 +1,6 @@
 package org.example.hospitalmanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,10 +33,11 @@ public class Patient {
     @Enumerated(EnumType.STRING)
     private BloodGroupType bloodGroup;
 
-    @OneToOne()
-//    @JoinColumn(name = "patient_insurance",  nullable = false, unique = true)
+    @OneToOne(cascade =  CascadeType.ALL)
+    @JoinColumn(name = "patient_insurance")
     private Insurance insurance; //owning side
 
     @OneToMany(mappedBy = "patient") // inverse side
-    private Set<Appointment> appointment = new HashSet<>();
+    @JsonIgnore
+    private Set<Appointment> appointments = new HashSet<>();
 }

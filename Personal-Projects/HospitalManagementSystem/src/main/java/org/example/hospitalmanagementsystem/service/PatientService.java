@@ -34,11 +34,11 @@ public class PatientService {
                 .toList();
     }
 
-    public Optional<PatientDto> getPatientById(Long id) {
+    public PatientDto getPatientById(Long id) {
         isPatientExistById(id);
 
-        return patientRepositoy.findById(id)
-                .map(patient -> modelMapper.map(patient, PatientDto.class));
+        Optional<Patient> patient = patientRepositoy.findById(id);
+        return modelMapper.map(patient, PatientDto.class);
     }
 
 
@@ -48,10 +48,9 @@ public class PatientService {
         return modelMapper.map(savedPatient, PatientDto.class);
     }
 
-    public boolean deletePatientById(Long id) {
+    public void deletePatientById(Long id) {
         isPatientExistById(id);
         patientRepositoy.deleteById(id);
-        return true;
     }
 
 
