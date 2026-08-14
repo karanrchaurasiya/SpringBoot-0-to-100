@@ -1,6 +1,5 @@
 package org.example.springbootjpahibernate.entity;
 
-/*
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +24,7 @@ import java.time.LocalDateTime;
         @Index(name = "sku_index", columnList = "sku")
         }
 )
-public class ProductEntity {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,4 +43,3 @@ public class ProductEntity {
 
 
 }
-*/
