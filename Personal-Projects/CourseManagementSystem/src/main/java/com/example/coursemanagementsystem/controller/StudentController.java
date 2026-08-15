@@ -2,7 +2,6 @@ package com.example.coursemanagementsystem.controller;
 
 import com.example.coursemanagementsystem.dto.StudentRequest;
 import com.example.coursemanagementsystem.dto.StudentResponse;
-import com.example.coursemanagementsystem.entity.Student;
 import com.example.coursemanagementsystem.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,5 +50,48 @@ public class StudentController {
         return ResponseEntity.ok(studentService.updateParialStudent(id, fieldToUpdate));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<StudentResponse> findStudentByEmail(@RequestParam String email){
+        return ResponseEntity.ok(studentService.findStudentByEmail(email));
+    }
+
+    @GetMapping("/search/name")
+    public ResponseEntity<List<StudentResponse>> findStudentByName(@RequestParam String text){
+        return ResponseEntity.ok(studentService.findStudentByName(text));
+    }
+
+    @GetMapping("/search/older")
+    public ResponseEntity<List<StudentResponse>> findByAgeGreaterThan(@RequestParam Integer age){
+        List<StudentResponse> studentResponses =  studentService.findByAgeGreaterThan(age);
+        if (studentResponses.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(studentResponses);
+    }
+
+    @GetMapping("/search/age-range")
+    public ResponseEntity<List<StudentResponse>> findByAgeBetween(
+            @RequestParam Integer minAge,
+            @RequestParam Integer maxAge){
+        List<StudentResponse> studentResponses = studentService.findByAgeBetween(minAge, maxAge);
+
+        if (studentResponses.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(studentResponses);
+    }
+
+    @GetMapping("/search/name-age")
+    public ResponseEntity<List<StudentResponse>> findByNameAndAge(
+            @RequestParam String name,
+            @RequestParam Integer age){
+
+        List<StudentResponse> studentResponses = studentService.findByNameAndAge(name, age);
+
+        if (studentResponses.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(studentResponses);
+    }
 
 }

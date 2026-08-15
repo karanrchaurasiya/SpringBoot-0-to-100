@@ -69,4 +69,40 @@ public class StudentService {
 
         return modelMapper.map(studentRepository.save(studentFounded), StudentResponse.class);
     }
+
+
+    public StudentResponse findStudentByEmail(String email) {
+       Student student = studentRepository.findStudentByEmail(email)
+               .orElseThrow(() -> new StudentNotFoundException("Student with this email: "+ email +" not found"));
+       return modelMapper.map(student, StudentResponse.class);
+    }
+
+    public List<StudentResponse> findStudentByName(String text){
+        List<Student> students = studentRepository.findByNameContains(text);
+       return students.stream()
+                .map(student -> modelMapper.map(student, StudentResponse.class))
+                .toList();
+    }
+
+    public List<StudentResponse> findByAgeGreaterThan(Integer age){
+        List<Student> studentList = studentRepository.findByAgeGreaterThan(age);
+       return studentList.stream()
+                .map(student -> modelMapper.map(student, StudentResponse.class))
+                .toList();
+    }
+
+    public List<StudentResponse> findByAgeBetween(Integer minAge, Integer maxAge){
+        List<Student> studentList = studentRepository.findByAgeBetween(minAge, maxAge);
+        return studentList.stream()
+                .map(student -> modelMapper.map(student, StudentResponse.class))
+                .toList();
+    }
+
+    public List<StudentResponse> findByNameAndAge(String name, Integer age){
+        List<Student> studentList = studentRepository.findByNameAndAge(name, age);
+        return studentList.stream()
+                .map(student -> modelMapper.map(student, StudentResponse.class))
+                .toList();
+    }
+
 }
